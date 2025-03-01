@@ -1,0 +1,70 @@
+<footer class="bg-danger text-white py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <!-- คอลัมน์แรก: โลโก้และข้อมูลติดต่อ -->
+        <div class="col-12 col-md-4 mb-4 mb-md-0">
+          <div class="d-flex align-items-center mb-3">
+            {% comment %} <img src="#" alt="โลโก้" height="40" class="me-2"> {% endcomment %}
+            <h5 class="m-0">Story Rebirth</h5>
+          </div>
+          <p class="small">เว็บไซต์อ่านการ์ตูนและนิยายออนไลน์ที่รวบรวมผลงานคุณภาพจากนักเขียนทั่วประเทศ</p>
+          <div class="d-flex mt-3">
+            <a href="#" class="text-white me-3" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white me-3" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white me-3" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white" title="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        
+        <!-- คอลัมน์ที่สอง: เมนูลิงก์ -->
+        <div class="col-6 col-md-2 mb-3">
+          <h6 class="text-uppercase mb-3">หมวดหมู่</h6>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="{% url 'home' %}" class="nav-link p-0 text-white-50">หน้าแรก</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">การ์ตูน</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">นิยาย</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">การ์ตูนยอดนิยม</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">นิยายยอดนิยม</a></li>
+          </ul>
+        </div>
+        
+        <!-- คอลัมน์ที่สาม: เมนูช่วยเหลือ -->
+        <div class="col-6 col-md-2 mb-3">
+          <h6 class="text-uppercase mb-3">ช่วยเหลือ</h6>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">เกี่ยวกับเรา</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">คำถามที่พบบ่อย</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">ข้อตกลงการใช้งาน</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">นโยบายความเป็นส่วนตัว</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white-50">ติดต่อเรา</a></li>
+          </ul>
+        </div>
+        
+        <!-- คอลัมน์ที่สี่: จดหมายข่าว -->
+        <div class="col-12 col-md-4 mt-3 mt-md-0">
+          <h6 class="text-uppercase mb-3">รับข่าวสารและโปรโมชั่น</h6>
+          <p class="small">ลงทะเบียนรับจดหมายข่าวเพื่อรับทราบข้อมูลล่าสุดเกี่ยวกับการ์ตูนและนิยายใหม่ รวมถึงโปรโมชั่นพิเศษ</p>
+          <form>
+            <div class="d-flex w-100 gap-2">
+              <label for="newsletter1" class="visually-hidden">อีเมล</label>
+              <input id="newsletter1" type="text" class="form-control" placeholder="อีเมลของคุณ">
+              <button class="btn btn-light" type="button">สมัคร</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <hr class="my-4">
+      
+      <!-- ส่วนล่างสุด: ลิขสิทธิ์และลิงก์เพิ่มเติม -->
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-2 small">
+        <p>&copy; {% now "Y" %} Story Rebirth. สงวนลิขสิทธิ์ทั้งหมด.</p>
+        <ul class="list-unstyled d-flex">
+          <li class="ms-3"><a class="text-white-50" href="#">ข้อกำหนดการใช้งาน</a></li>
+          <li class="ms-3"><a class="text-white-50" href="#">ความเป็นส่วนตัว</a></li>
+          <li class="ms-3"><a class="text-white-50" href="#">นโยบายคุกกี้</a></li>
+        </ul>
+      </div>
+    </div>
+</footer>
+  

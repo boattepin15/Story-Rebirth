@@ -1,0 +1,1248 @@
+{% extends 'base.html' %}
+{% load filters_number %}
+{% load humanize %}
+{% load static %}
+
+{% block home %}
+
+{% comment %} แบนเนอร์ {% endcomment %}
+<section id="banner">
+    <div class="container-fluid mt-2">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'images/demo/banner/19da8479-745f-4741-8ad5-8ad3ad3b1a54_app.webp' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'images/demo/banner/ca954706-c046-4403-a94b-a5532d34c356_app.webp' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'images/demo/banner/ea59c79c-4712-4f0a-b086-513fe4b0d7df_app.webp' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'images/demo/banner/bc3b398d-cf57-472c-a1b0-8999ff77213a_app.webp' %}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+    </div>
+</section>
+
+{% comment %} ตารางอ่านการ์ตูนและนิยาย {% endcomment %}
+<section id="updateDay">
+    <div class="container mt-4">
+        <ul class="nav nav-pills mb-3 d-flex justify-content-center" id="pills-tab-updateDay" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="pills-monday-tab" data-bs-toggle="pill" data-bs-target="#pills-monday" type="button" role="tab" aria-controls="pills-monday" aria-selected="true">วันจันทร์</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-tuesday-tab" data-bs-toggle="pill" data-bs-target="#pills-tuesday" type="button" role="tab" aria-controls="pills-tuesday" aria-selected="false">วันอังคาร</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-wednesday-tab" data-bs-toggle="pill" data-bs-target="#pills-wednesday" type="button" role="tab" aria-controls="pills-wednesday" aria-selected="false">วันพุธ</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-thursday-tab" data-bs-toggle="pill" data-bs-target="#pills-thursday" type="button" role="tab" aria-controls="pills-thursday" aria-selected="false">วันพฤหัสบดี</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-friday-tab" data-bs-toggle="pill" data-bs-target="#pills-friday" type="button" role="tab" aria-controls="pills-friday" aria-selected="false">วันศุกร์</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-saturday-tab" data-bs-toggle="pill" data-bs-target="#pills-saturday" type="button" role="tab" aria-controls="pills-saturday" aria-selected="false">วันเสาร์</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-sunday-tab" data-bs-toggle="pill" data-bs-target="#pills-sunday" type="button" role="tab" aria-controls="pills-sunday" aria-selected="false">วันอาทิตย์</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <!-- วันจันทร์ -->
+            <div class="tab-pane fade show active" id="pills-monday" role="tabpanel" aria-labelledby="pills-monday-tab">
+                <div class="manga-update">
+                  <div class="container mt-4">
+                    <div class="row align-items-center">
+                      <div class="col-6">
+                        <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                      </div>
+                      <div class="col-6 text-end">
+                        <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                      </div>
+                    </div>
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                      {% for comic in comics_by_day.mon|slice:":6" %}
+                      <div>
+                        <div class="card shadow-sm">
+                          <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                          <div class="card-body p-2">
+                            <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                            <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                            <div class="card-text text-start text-truncate text-muted">
+                              {{comic.category.all|join:"," |truncatechars:20}}
+                            </div>
+                          </div>
+                          <hr class="my-1"/>
+                          <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                            <div class="d-flex align-items-center">
+                              <span class="material-icons">reorder</span>
+                              <span class="ms-1">{{comic.viewer | short_number}}</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <span class="material-icons">favorite_border</span>
+                              <span class="ms-1">{{comic.like | short_number}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="novels-update">
+                  <div class="container mt-4">
+                    <div class="row align-items-center">
+                      <div class="col-6">
+                        <h4 class="text-start">นิยาย ประจำวัน</h4>
+                      </div>
+                      <div class="col-6 text-end">
+                        <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                      </div>
+                    </div>
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                      {% for novel in novels_by_day.mon|slice:":6" %}
+                      <div>
+                        <div class="card shadow-sm">
+                          <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                          <div class="card-body p-2">
+                            <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                            <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                            <div class="card-text text-start text-truncate text-muted">
+                              {{novel.category.all|join:"," |truncatechars:20}}
+                            </div>
+                          </div>
+                          <hr class="my-1"/>
+                          <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                            <div class="d-flex align-items-center">
+                              <span class="material-icons">reorder</span>
+                              <span class="ms-1">{{novel.viewer | short_number}}</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <span class="material-icons">favorite_border</span>
+                              <span class="ms-1">{{novel.like | short_number}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+            </div>
+            
+            <!-- วันอังคาร -->
+            <div class="tab-pane fade" id="pills-tuesday" role="tabpanel" aria-labelledby="pills-tuesday-tab">
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.tue|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.tue|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- วันพุธ -->
+            <div class="tab-pane fade" id="pills-wednesday" role="tabpanel" aria-labelledby="pills-wednesday-tab">
+              <!-- โครงสร้างเหมือนกับวันอื่นๆ แก้ไขในแบบเดียวกันตามด้านบน -->
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.wed|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.wed|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- วันพฤหัสบดี -->
+            <div class="tab-pane fade" id="pills-thursday" role="tabpanel" aria-labelledby="pills-thursday-tab">
+              <!-- โครงสร้างเหมือนกันกับวันอื่นๆ แก้ไขในแบบเดียวกันตามด้านบน -->
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.thu|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.thu|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- วันศุกร์ -->
+            <div class="tab-pane fade" id="pills-friday" role="tabpanel" aria-labelledby="pills-friday-tab">
+              <!-- โครงสร้างเหมือนกันกับวันอื่นๆ แก้ไขในแบบเดียวกันตามด้านบน -->
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.fri|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.fri|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- วันเสาร์ -->
+            <div class="tab-pane fade" id="pills-saturday" role="tabpanel" aria-labelledby="pills-saturday-tab">
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.sat|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.sat|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- วันอาทิตย์ -->
+            <div class="tab-pane fade" id="pills-sunday" role="tabpanel" aria-labelledby="pills-sunday-tab">
+              <div class="manga-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">การ์ตูน ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="" class="text-decoration-none" style="color: rgb(180, 11, 11);">อ่านเพิ่มเติม</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for comic in comics_by_day.sun|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                          <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{comic.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{comic.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{comic.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="novels-update">
+                <div class="container mt-4">
+                  <div class="row align-items-center">
+                    <div class="col-6">
+                      <h4 class="text-start">นิยาย ประจำวัน</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                      <a href="#" class="btn btn-outline-danger btn-sm" style="border-color: rgb(180, 11, 11); color: rgb(180, 11, 11);">ดูทั้งหมด</a>
+                    </div>
+                  </div>
+                  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mt-2">
+                    {% for novel in novels_by_day.sun|slice:":6" %}
+                    <div>
+                      <div class="card shadow-sm">
+                        <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                        <div class="card-body p-2">
+                          <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                          <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                          <div class="card-text text-start text-truncate text-muted">
+                            {{novel.category.all|join:"," |truncatechars:20}}
+                          </div>
+                        </div>
+                        <hr class="my-1"/>
+                        <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">reorder</span>
+                            <span class="ms-1">{{novel.viewer | short_number}}</span>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="material-icons">favorite_border</span>
+                            <span class="ms-1">{{novel.like | short_number}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% comment %} นิยายอัพเดทล่าสุดและมังงะอัพเดทล่าสุด สไลด์ได้ด้วย Swiper {% endcomment %}
+<section id="latest-content">
+  <div class="container mt-5">
+      <!-- มังงะอัพเดทล่าสุด -->
+      <div class="row mb-4">
+          <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="m-0">มังงะอัพเดทล่าสุด</h3>
+                  <a href="#" class="btn btn-outline-danger btn-sm" style="border-color: rgb(180, 11, 11); color: rgb(180, 11, 11);">ดูทั้งหมด</a>
+              </div>
+             
+              <!-- Swiper สำหรับมังงะอัพเดทล่าสุด -->
+              <div class="swiper contentSwiper">
+                  <div class="swiper-wrapper">
+                      {% for comic in latest_comics %}
+                          <div class="swiper-slide">
+                              <div class="content-card card shadow-sm h-100">
+                                  <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                                  <div class="card-body p-2">
+                                      <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                                      <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                                      <div class="card-text text-start text-truncate text-muted">
+                                          {{comic.category.all|join:"," |truncatechars:20}}
+                                      </div>
+                                  </div>
+                                  <hr class="my-1"/>
+                                  <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">reorder</span>
+                                          <span class="ms-1">{{comic.viewer | short_number}}</span>
+                                      </div>
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">favorite_border</span>
+                                          <span class="ms-1">{{comic.like | short_number}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+                  <!-- ปุ่มเลื่อน -->
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+              </div>
+          </div>
+      </div>
+
+      <!-- นิยายอัพเดทล่าสุด -->
+      <div class="row mt-5">
+          <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="m-0">นิยายอัพเดทล่าสุด</h3>
+                  <a href="#" class="btn btn-outline-danger btn-sm" style="border-color: rgb(180, 11, 11); color: rgb(180, 11, 11);">ดูทั้งหมด</a>
+              </div>
+             
+              <!-- Swiper สำหรับนิยายอัพเดทล่าสุด -->
+              <div class="swiper contentSwiper">
+                  <div class="swiper-wrapper">
+                      {% for novel in latest_novels %}
+                          <div class="swiper-slide">
+                              <div class="content-card card shadow-sm h-100">
+                                  <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                                  <div class="card-body p-2">
+                                      <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                                      <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                                      <div class="card-text text-start text-truncate text-muted">
+                                          {{novel.category.all|join:"," |truncatechars:20}}
+                                      </div>
+                                  </div>
+                                  <hr class="my-1"/>
+                                  <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">reorder</span>
+                                          <span class="ms-1">{{novel.viewer | short_number}}</span>
+                                      </div>
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">favorite_border</span>
+                                          <span class="ms-1">{{novel.like | short_number}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+                  <!-- ปุ่มเลื่อน -->
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+{% comment %} นิยายอัพเดทล่าสุดและมังงะอัพเดทล่าสุด สไลด์ได้ด้วย Swiper {% endcomment %}
+<section id="popular-content">
+  <div class="container mt-5">
+      <!-- สำหรับมังงะอัพเดทล่าสุด -->
+      <div class="row mb-4">
+          <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="m-0">มังงะยอดฮิตติดใจ</h3>
+                  <a href="#" class="btn btn-outline-danger btn-sm" style="border-color: rgb(180, 11, 11); color: rgb(180, 11, 11);">ดูทั้งหมด</a>
+              </div>
+             
+              <!-- Swiper สำหรับมังงะอัพเดทล่าสุด -->
+              <div class="swiper contentSwiper">
+                  <div class="swiper-wrapper">
+                      {% for comic in popular_comics %}
+                          <div class="swiper-slide">
+                              <div class="content-card card shadow-sm h-100">
+                                  <img class="card-img-top img-fluid" src="{{comic.image.url}}" alt="{{comic.title}}">
+                                  <div class="card-body p-2">
+                                      <div class="card-title fw-bold text-start text-truncate">{{comic.title}}</div>
+                                      <div class="card-text text-start text-truncate">{{comic.author}}</div>
+                                      <div class="card-text text-start text-truncate text-muted">
+                                          {{comic.category.all|join:"," |truncatechars:20}}
+                                      </div>
+                                  </div>
+                                  <hr class="my-1"/>
+                                  <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">reorder</span>
+                                          <span class="ms-1">{{comic.viewer | short_number}}</span>
+                                      </div>
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">favorite_border</span>
+                                          <span class="ms-1">{{comic.like | short_number}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+                  <!-- ปุ่มเลื่อน -->
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+              </div>
+          </div>
+      </div>
+
+      <!-- นิยายยอดฮิตติดใจ -->
+      <div class="row mt-5">
+          <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="m-0">นิยายยอดฮิตติดใจ</h3>
+                  <a href="#" class="btn btn-outline-danger btn-sm" style="border-color: rgb(180, 11, 11); color: rgb(180, 11, 11);">ดูทั้งหมด</a>
+              </div>
+             
+              <!-- Swiper สำหรับนิยายยอดฮิตติดใจ -->
+              <div class="swiper contentSwiper">
+                  <div class="swiper-wrapper">
+                      {% for novel in popular_novels %}
+                          <div class="swiper-slide">
+                              <div class="content-card card shadow-sm h-100">
+                                  <img class="card-img-top img-fluid" src="{{novel.image.url}}" alt="{{novel.title}}">
+                                  <div class="card-body p-2">
+                                      <div class="card-title fw-bold text-start text-truncate">{{novel.title}}</div>
+                                      <div class="card-text text-start text-truncate">{{novel.author}}</div>
+                                      <div class="card-text text-start text-truncate text-muted">
+                                          {{novel.category.all|join:"," |truncatechars:20}}
+                                      </div>
+                                  </div>
+                                  <hr class="my-1"/>
+                                  <div class="card-body text-muted p-2 d-flex justify-content-start gap-3">
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">reorder</span>
+                                          <span class="ms-1">{{novel.viewer | short_number}}</span>
+                                      </div>
+                                      <div class="d-flex align-items-center">
+                                          <span class="material-icons">favorite_border</span>
+                                          <span class="ms-1">{{novel.like | short_number}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+                  <!-- ปุ่มเลื่อน -->
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Rankings Section - Novel -->
+<section class="rankings-section py-4">
+  <div class="container">
+    <div class="section-header d-flex align-items-center mb-3">
+      <span class="material-icons text-warning me-2">emoji_events</span>
+      <h2 class="section-title mb-0">จัดอันดับนิยาย</h2>
+    </div>
+   
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Novels Ranking By Likes -->
+        <div class="ranking-card mb-4">
+          <div class="ranking-header bg-primary text-white d-flex align-items-center justify-content-between p-3 rounded-top">
+            <div class="d-flex align-items-center">
+              <span class="emoji-icon me-2">❤️</span>
+              <h3 class="ranking-title mb-0">
+                {% if liked_novels_time_period == '7days' %}
+                  อันดับยอดไลค์ใน 7 วัน
+                {% else %}
+                  อันดับยอดไลค์ทั้งหมด
+                {% endif %}
+              </h3>
+            </div>
+            <a href="#" class="text-white small-link">ดูทั้งหมด <span class="material-icons" style="font-size: 16px;">arrow_forward</span></a>
+          </div>
+         
+          <div class="ranking-list">
+            {% for novel in top_liked_novels %}
+            <div class="ranking-item p-2 d-flex align-items-center" data-book-url="#">
+              <div class="rank-number text-primary fw-bold fs-4 me-3">{{ forloop.counter }}</div>
+              <div class="book-cover me-3">
+                <img src="{{ novel.image.url }}" alt="{{ novel.title }}" class="img-fluid rounded" width="70">
+                {% if novel.status == 'completed' %}
+                <span class="badge bg-success position-absolute" style="top: 0; left: 0; font-size: 10px;">จบ</span>
+                {% endif %}
+              </div>
+              <div class="book-info flex-grow-1">
+                <h4 class="book-title mb-1">{{ novel.title }}</h4>
+                <div class="author-info d-flex align-items-center mb-1">
+                  <span class="material-icons me-1" style="font-size: 16px;">person</span>
+                  <span class="author-name small">{{ novel.author }}</span>
+                </div>
+                <div class="genre-info d-flex align-items-center small text-secondary">
+                  <span>{{ novel.category.all|join:", " }}</span>
+                </div>
+                <div class="stats-info d-flex align-items-center mt-1">
+                  <div class="chapters me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">menu_book</span>
+                    <span>{{ novel.chapter_set.count }}</span>
+                  </div>
+                  <div class="likes me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">favorite</span>
+                    <span>{{ novel.like|short_number }}</span>
+                  </div>
+                  <div class="views small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">visibility</span>
+                    <span>{{ novel.viewer|short_number }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+     
+      <div class="col-md-6">
+        <!-- Novels Ranking By Views -->
+        <div class="ranking-card mb-4">
+          <div class="ranking-header bg-danger text-white d-flex align-items-center justify-content-between p-3 rounded-top">
+            <div class="d-flex align-items-center">
+              <span class="emoji-icon me-2">👁️</span>
+              <h3 class="ranking-title mb-0">
+                {% if viewed_novels_time_period == '7days' %}
+                  อันดับยอดวิวใน 7 วัน
+                {% else %}
+                  อันดับยอดวิวทั้งหมด
+                {% endif %}
+              </h3>
+            </div>
+            <a href="#" class="text-white small-link">ดูทั้งหมด <span class="material-icons" style="font-size: 16px;">arrow_forward</span></a>
+          </div>
+         
+          <div class="ranking-list">
+            {% for novel in top_viewed_novels %}
+            <div class="ranking-item p-2 d-flex align-items-center" data-book-url="#">
+              <div class="rank-number text-danger fw-bold fs-4 me-3">{{ forloop.counter }}</div>
+              <div class="book-cover me-3">
+                <img src="{{ novel.image.url }}" alt="{{ novel.title }}" class="img-fluid rounded" width="70">
+                {% if novel.status == 'completed' %}
+                <span class="badge bg-success position-absolute" style="top: 0; left: 0; font-size: 10px;">จบ</span>
+                {% endif %}
+              </div>
+              <div class="book-info flex-grow-1">
+                <h4 class="book-title mb-1">{{ novel.title }}</h4>
+                <div class="author-info d-flex align-items-center mb-1">
+                  <span class="material-icons me-1" style="font-size: 16px;">person</span>
+                  <span class="author-name small">{{ novel.author }}</span>
+                </div>
+                <div class="genre-info d-flex align-items-center small text-secondary">
+                  <span>{{ novel.category.all|join:", " }}</span>
+                </div>
+                <div class="stats-info d-flex align-items-center mt-1">
+                  <div class="chapters me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">menu_book</span>
+                    <span>{{ novel.chapter_set.count }}</span>
+                  </div>
+                  <div class="likes me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">favorite</span>
+                    <span>{{ novel.like|short_number }}</span>
+                  </div>
+                  <div class="views small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">visibility</span>
+                    <span>{{ novel.viewer|short_number }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rankings Section - Manga/Comics -->
+<section class="rankings-section py-4 bg-light">
+  <div class="container">
+    <div class="section-header d-flex align-items-center mb-3">
+      <span class="material-icons text-warning me-2">emoji_events</span>
+      <h2 class="section-title mb-0">จัดอันดับการ์ตูน</h2>
+    </div>
+   
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Comics Ranking By Likes -->
+        <div class="ranking-card mb-4">
+          <div class="ranking-header bg-primary text-white d-flex align-items-center justify-content-between p-3 rounded-top">
+            <div class="d-flex align-items-center">
+              <span class="emoji-icon me-2">❤️</span>
+              <h3 class="ranking-title mb-0">
+                {% if liked_comics_time_period == '7days' %}
+                  อันดับยอดไลค์ใน 7 วัน
+                {% else %}
+                  อันดับยอดไลค์ทั้งหมด
+                {% endif %}
+              </h3>
+            </div>
+            <a href="#" class="text-white small-link">ดูทั้งหมด <span class="material-icons" style="font-size: 16px;">arrow_forward</span></a>
+          </div>
+         
+          <div class="ranking-list">
+            {% for comic in top_liked_comics %}
+            <div class="ranking-item p-2 d-flex align-items-center" data-book-url="#">
+              <div class="rank-number text-primary fw-bold fs-4 me-3">{{ forloop.counter }}</div>
+              <div class="book-cover me-3">
+                <img src="{{ comic.image.url }}" alt="{{ comic.title }}" class="img-fluid rounded" width="70">
+                {% if comic.status == 'completed' %}
+                <span class="badge bg-success position-absolute" style="top: 0; left: 0; font-size: 10px;">จบ</span>
+                {% endif %}
+              </div>
+              <div class="book-info flex-grow-1">
+                <h4 class="book-title mb-1">{{ comic.title }}</h4>
+                <div class="author-info d-flex align-items-center mb-1">
+                  <span class="material-icons me-1" style="font-size: 16px;">person</span>
+                  <span class="author-name small">{{ comic.author }}</span>
+                </div>
+                <div class="genre-info d-flex align-items-center small text-secondary">
+                  <span>{{ comic.category.all|join:", " }}</span>
+                </div>
+                <div class="stats-info d-flex align-items-center mt-1">
+                  <div class="chapters me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">menu_book</span>
+                    <span>{{ comic.chapter_set.count }}</span>
+                  </div>
+                  <div class="likes me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">favorite</span>
+                    <span>{{ comic.like|short_number }}</span>
+                  </div>
+                  <div class="views small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">visibility</span>
+                    <span>{{ comic.viewer|short_number }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+     
+      <div class="col-md-6">
+        <!-- Comics Ranking By Views -->
+        <div class="ranking-card mb-4">
+          <div class="ranking-header bg-danger text-white d-flex align-items-center justify-content-between p-3 rounded-top">
+            <div class="d-flex align-items-center">
+              <span class="emoji-icon me-2">👁️</span>
+              <h3 class="ranking-title mb-0">
+                {% if viewed_comics_time_period == '7days' %}
+                  อันดับยอดวิวใน 7 วัน
+                {% else %}
+                  อันดับยอดวิวทั้งหมด
+                {% endif %}
+              </h3>
+            </div>
+            <a href="#" class="text-white small-link">ดูทั้งหมด <span class="material-icons" style="font-size: 16px;">arrow_forward</span></a>
+          </div>
+         
+          <div class="ranking-list">
+            {% for comic in top_viewed_comics %}
+            <div class="ranking-item p-2 d-flex align-items-center" data-book-url="#">
+              <div class="rank-number text-danger fw-bold fs-4 me-3">{{ forloop.counter }}</div>
+              <div class="book-cover me-3">
+                <img src="{{ comic.image.url }}" alt="{{ comic.title }}" class="img-fluid rounded" width="70">
+                {% if comic.status == 'completed' %}
+                <span class="badge bg-success position-absolute" style="top: 0; left: 0; font-size: 10px;">จบ</span>
+                {% endif %}
+              </div>
+              <div class="book-info flex-grow-1">
+                <h4 class="book-title mb-1">{{ comic.title }}</h4>
+                <div class="author-info d-flex align-items-center mb-1">
+                  <span class="material-icons me-1" style="font-size: 16px;">person</span>
+                  <span class="author-name small">{{ comic.author }}</span>
+                </div>
+                <div class="genre-info d-flex align-items-center small text-secondary">
+                  <span>{{ comic.category.all|join:", " }}</span>
+                </div>
+                <div class="stats-info d-flex align-items-center mt-1">
+                  <div class="chapters me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">menu_book</span>
+                    <span>{{ comic.chapter_set.count }}</span>
+                  </div>
+                  <div class="likes me-3 small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">favorite</span>
+                    <span>{{ comic.like|short_number }}</span>
+                  </div>
+                  <div class="views small text-secondary">
+                    <span class="material-icons me-1" style="font-size: 14px;">visibility</span>
+                    <span>{{ comic.viewer|short_number }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .ranking-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    overflow: hidden;
+  }
+  
+  .ranking-header {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .ranking-title {
+    font-size: 1.2rem;
+  }
+  
+  .ranking-item {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+  
+  .ranking-item:last-child {
+    border-bottom: none;
+  }
+  
+  .ranking-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .book-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .book-cover {
+    position: relative;
+  }
+  
+  .small-link {
+    font-size: 0.85rem;
+  }
+  
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // กำหนดให้แท็บแรกเป็นแท็บ active เมื่อโหลดหน้า
+  const firstTab = document.querySelector('#pills-monday-tab');
+  if (firstTab) {
+    firstTab.classList.add('active');
+    document.querySelector('#pills-monday').classList.add('active', 'show');
+  }
+
+  // สร้าง Swiper objects สำหรับทุก carousel
+  const swipers = document.querySelectorAll('.contentSwiper');
+ 
+  swipers.forEach(function(swiperElement) {
+      new Swiper(swiperElement, {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          grabCursor: true, // แสดงเคอร์เซอร์แบบจับเมื่อวางเมาส์เหนือ swiper
+          loop: true,
+          autoplay: {
+              delay: 5000, // หน่วงเวลา 5 วินาที
+              disableOnInteraction: false, // ไม่หยุด autoplay เมื่อผู้ใช้ใช้งาน
+              pauseOnMouseEnter: true, // หยุดเมื่อเมาส์อยู่เหนือ
+          },
+          pagination: {
+              el: swiperElement.querySelector('.swiper-pagination'),
+              clickable: true,
+          },
+          navigation: {
+              nextEl: swiperElement.querySelector('.swiper-button-next'),
+              prevEl: swiperElement.querySelector('.swiper-button-prev'),
+          },
+          breakpoints: {
+              // เมื่อจอกว้าง >= 576px
+              576: {
+                  slidesPerView: 2,
+                  spaceBetween: 15,
+              },
+              // เมื่อจอกว้าง >= 768px
+              768: {
+                  slidesPerView: 3,
+                  spaceBetween: 15,
+              },
+              // เมื่อจอกว้าง >= 992px
+              992: {
+                  slidesPerView: 4,
+                  spaceBetween: 15,
+              },
+              // เมื่อจอกว้าง >= 1200px
+              1200: {
+                  slidesPerView: 6,
+                  spaceBetween: 15,
+              },
+          },
+          on: {
+              init: function() {
+                  setTimeout(() => {
+                      equalizeCardHeights(swiperElement);
+                  }, 100);
+              },
+              resize: function() {
+                  setTimeout(() => {
+                      equalizeCardHeights(swiperElement);
+                  }, 100);
+              }
+          }
+      });
+  });
+ 
+  // ฟังก์ชั่นทำให้การ์ดมีความสูงเท่ากัน
+  function equalizeCardHeights(swiperElement) {
+      const cards = swiperElement.querySelectorAll('.content-card');
+      let maxHeight = 0;
+     
+      // รีเซ็ตความสูงก่อน
+      cards.forEach(card => {
+          card.style.height = 'auto';
+      });
+     
+      // หาความสูงมากที่สุด
+      cards.forEach(card => {
+          const height = card.offsetHeight;
+          maxHeight = Math.max(maxHeight, height);
+      });
+     
+      // กำหนดความสูงให้เท่ากันทุกการ์ด
+      if (maxHeight > 0) {
+          cards.forEach(card => {
+              card.style.height = `${maxHeight}px`;
+          });
+      }
+  }
+  
+  // เพิ่ม effect hover สำหรับปุ่ม "อ่านเพิ่มเติม"
+  const readMoreLinks = document.querySelectorAll('a[href]:not(.btn)');
+  readMoreLinks.forEach(link => {
+    link.classList.add('text-decoration-none');
+    link.style.color = 'rgb(180, 11, 11)';
+    link.style.transition = 'opacity 0.3s';
+    
+    link.addEventListener('mouseenter', function() {
+      this.style.opacity = '0.7';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      this.style.opacity = '1';
+    });
+  });
+});
+</script>
+{% endblock home %}
